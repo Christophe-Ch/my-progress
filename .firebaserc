@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "my-progress-da34b": {
+      "hosting": {
+        "my-progress": [
+          "my-progress-da34b"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "my-progress-da34b"
+  }
+}
