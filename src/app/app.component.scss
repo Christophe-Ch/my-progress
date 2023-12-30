@@ -4,6 +4,6 @@
   height: 100%;
 }
 
-a:hover {
+a[mat-menu-item]:hover {
   text-decoration: none;
 }

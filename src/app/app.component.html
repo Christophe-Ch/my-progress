@@ -5,14 +5,14 @@
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <a routerLink="/auth/login" mat-menu-item>
       <mat-icon>login</mat-icon>
-      <a routerLink="/auth/login">Log In</a>
-    </button>
-    <button mat-menu-item>
+      <span>Log In</span>
+    </a>
+    <a routerLink="/auth/signup" mat-menu-item>
       <mat-icon>person_add</mat-icon>
-      <a routerLink="/auth/signup">Sign Up</a>
-    </button>
+      <span>Sign Up</span>
+    </a>
   </mat-menu>
 </mat-toolbar>
 <router-outlet></router-outlet>
