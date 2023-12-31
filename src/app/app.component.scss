@@ -7,3 +7,10 @@
 a[mat-menu-item]:hover {
   text-decoration: none;
 }
+
+mat-toolbar {
+  a {
+    color: white;
+    text-decoration: none;
+  }
+}
