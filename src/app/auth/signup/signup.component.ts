@@ -4,7 +4,26 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+function passwordMatchingValidator(other: AbstractControl): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const dontMatch = control.value !== other.value;
+    return dontMatch ? { passwordsDontMatch: true } : null;
+  };
+}
 
 @Component({
   selector: 'app-signup',
@@ -16,10 +35,52 @@ import { RouterLink } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
   public hidePassword = true;
+  public formGroup: FormGroup;
+
+  constructor(
+    formBuilder: FormBuilder,
+    private readonly _auth: Auth,
+    private readonly _snackBar: MatSnackBar,
+    private readonly _router: Router
+  ) {
+    this.formGroup = formBuilder.group({
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.required]],
+      retypePassword: ['', [Validators.required]],
+    });
+    this.formGroup.controls['retypePassword'].addValidators(
+      passwordMatchingValidator(this.formGroup.controls['password'])
+    );
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.formGroup.invalid) {
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(
+        this._auth,
+        this.formGroup.value.email,
+        this.formGroup.value.password
+      );
+
+      this._snackBar.open(`Welcome to MyProgress !`, '🤙', {
+        duration: 5000,
+      });
+      this._router.navigateByUrl('/');
+    } catch {
+      this._snackBar.open('Sign-up failed.', '🤔', {
+        duration: 5000,
+      });
+    }
+  }
 }

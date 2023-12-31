@@ -59,7 +59,7 @@ export class LoginComponent {
         this.formGroup.value.password
       );
 
-      this._snackBar.open(`Welcome back, ${result.user.displayName} !`, '🤙', {
+      this._snackBar.open(`Welcome back !`, '🤙', {
         duration: 5000,
       });
       this._router.navigateByUrl('/');

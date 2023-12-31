@@ -1,30 +1,44 @@
 <app-split-view>
   <div class="form-container">
-    <h2><mat-icon>waving_hand</mat-icon> Hi there !</h2>
-    <form>
+    <h2>👋 Hi there !</h2>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input type="email" matInput placeholder="john@example.com">
+        <input type="email" matInput placeholder="john@example.com" formControlName="email">
+        @if (formGroup.controls['email'].hasError('required')) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+        }
+        @else if (formGroup.controls['email'].hasError('email')) {
+          <mat-error>Please enter a valid email address</mat-error>
+        }
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input [type]="hidePassword ? 'password' : 'text'" matInput>
+        <input [type]="hidePassword ? 'password' : 'text'" matInput formControlName="password" (input)="formGroup.controls['retypePassword'].updateValueAndValidity()">
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hidePassword" type="button">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        @if (formGroup.controls['password'].hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+        }
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Re-type password</mat-label>
-        <input [type]="hidePassword ? 'password' : 'text'" matInput>
+        <input [type]="hidePassword ? 'password' : 'text'" matInput formControlName="retypePassword">
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hidePassword" type="button">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        @if (formGroup.controls['retypePassword'].hasError('required')) {
+          <mat-error>This field is <strong>required</strong></mat-error>
+        } @else if (formGroup.controls['retypePassword'].hasError('passwordsDontMatch')) {
+          <mat-error>Passwords don't match</mat-error>
+        }
       </mat-form-field>
       <div class="actions">
         <a routerLink="/auth/login">I have an account</a>
-        <button mat-flat-button color="primary">
+        <button mat-flat-button color="primary" [disabled]="formGroup.invalid">
           <mat-icon>person_add</mat-icon>
           Sign Up
         </button>
