@@ -1,0 +1,36 @@
+<app-split-view>
+  <div class="form-container">
+    @if (formGroup !== undefined) {
+    <h2>✏️ Tell us about you...</h2>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="John"
+          formControlName="firstName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Doe"
+          formControlName="lastName"
+        />
+      </mat-form-field>
+      <div class="actions">
+        <span></span>
+        <button mat-flat-button color="primary" [disabled]="formGroup.invalid">
+          <mat-icon>save</mat-icon>
+          Save profile
+        </button>
+      </div>
+    </form>
+    } @else {
+    <mat-spinner></mat-spinner>
+    }
+  </div>
+</app-split-view>

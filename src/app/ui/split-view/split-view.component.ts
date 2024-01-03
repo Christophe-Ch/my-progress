@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,5 +10,5 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './split-view.component.scss',
 })
 export class SplitViewComponent {
-  constructor(public route: ActivatedRoute) {}
+  public route = inject(ActivatedRoute);
 }

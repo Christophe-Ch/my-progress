@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   DocumentReference,
   DocumentData,
@@ -20,9 +20,9 @@ import {
  */
 @Injectable()
 export abstract class BaseDataService<T extends { [x: string]: any }> {
-  private docs: Map<T, DocumentReference<DocumentData>> = new Map();
+  private readonly docs: Map<T, DocumentReference<DocumentData>> = new Map();
 
-  constructor(protected readonly firestore: Firestore) {}
+  protected readonly firestore = inject(Firestore);
 
   /**
    * Get document from specified path.

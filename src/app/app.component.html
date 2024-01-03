@@ -15,7 +15,10 @@
         <span>Sign Up</span>
       </a>
     } @else {
-      <span class="menu-heading">{{ (user | async)?.displayName }}</span>
+      <a routerLink="/profile" mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>

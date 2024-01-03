@@ -32,15 +32,14 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  private readonly auth = inject(Auth);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
+
   public hidePassword = true;
   public formGroup: FormGroup;
 
-  constructor(
-    formBuilder: FormBuilder,
-    private readonly _auth: Auth,
-    private readonly _snackBar: MatSnackBar,
-    private readonly _router: Router
-  ) {
+  constructor(formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
@@ -54,17 +53,17 @@ export class LoginComponent {
 
     try {
       const result = await signInWithEmailAndPassword(
-        this._auth,
+        this.auth,
         this.formGroup.value.email,
         this.formGroup.value.password
       );
 
-      this._snackBar.open(`Welcome back !`, '🤙', {
+      this.snackBar.open(`Welcome back !`, '🤙', {
         duration: 5000,
       });
-      this._router.navigateByUrl('/');
+      this.router.navigateByUrl('/');
     } catch {
-      this._snackBar.open('Please check your credentials.', '🤔', {
+      this.snackBar.open('Please check your credentials.', '🤔', {
         duration: 5000,
       });
     }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SplitViewComponent } from '../../ui/split-view/split-view.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -42,15 +42,14 @@ function passwordMatchingValidator(other: AbstractControl): ValidatorFn {
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
+  private readonly auth = inject(Auth);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
+
   public hidePassword = true;
   public formGroup: FormGroup;
 
-  constructor(
-    formBuilder: FormBuilder,
-    private readonly _auth: Auth,
-    private readonly _snackBar: MatSnackBar,
-    private readonly _router: Router
-  ) {
+  constructor(formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
@@ -68,17 +67,17 @@ export class SignupComponent {
 
     try {
       await createUserWithEmailAndPassword(
-        this._auth,
+        this.auth,
         this.formGroup.value.email,
         this.formGroup.value.password
       );
 
-      this._snackBar.open(`Welcome to MyProgress !`, '🤙', {
+      this.snackBar.open(`Welcome to MyProgress !`, '🤙', {
         duration: 5000,
       });
-      this._router.navigateByUrl('/');
+      this.router.navigateByUrl('/profile');
     } catch {
-      this._snackBar.open('Sign-up failed.', '🤔', {
+      this.snackBar.open('Sign-up failed.', '🤔', {
         duration: 5000,
       });
     }

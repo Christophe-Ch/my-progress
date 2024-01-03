@@ -20,9 +20,6 @@ import {
 } from '@angular/fire/storage';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
-import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
-import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
-import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/functions';
 
 export const appConfig: ApplicationConfig = {
   providers: [

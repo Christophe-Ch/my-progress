@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -26,17 +26,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  private readonly auth = inject(Auth);
+  private readonly snackBar = inject(MatSnackBar);
+
   public user: Observable<User | null>;
 
-  constructor(
-    private readonly _auth: Auth,
-    private readonly _snackBar: MatSnackBar
-  ) {
-    this.user = user(_auth);
+  constructor() {
+    this.user = user(this.auth);
   }
 
   logout(): void {
-    signOut(this._auth);
-    this._snackBar.open('See you later !', '👋', { duration: 5000 });
+    signOut(this.auth);
+    this.snackBar.open('See you later !', '👋', { duration: 5000 });
   }
 }
