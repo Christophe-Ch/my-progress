@@ -1,18 +1,29 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { ProfileComponent } from './profile/profile/profile.component';
+import { ProfileComponent } from './profile/profile.component';
 import {
-  AuthGuard,
   redirectLoggedInTo,
   redirectUnauthorizedTo,
   canActivate,
 } from '@angular/fire/auth-guard';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo('/auth/login');
-const redirectToHome = () => redirectLoggedInTo('/');
+const redirectToHome = () => redirectLoggedInTo('/dashboard');
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: LoginComponent, // TODO edit with HomeComponent
+    ...canActivate(redirectToHome),
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    title: 'Dashboard',
+    ...canActivate(redirectUnauthorizedToLogin),
+  },
   {
     path: 'auth/login',
     component: LoginComponent,

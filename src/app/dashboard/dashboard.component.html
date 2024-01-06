@@ -1,0 +1,21 @@
+<h1>
+  @if (profileService.currentProfile?.firstName) { Welcome back,
+  <span>{{ profileService.currentProfile?.firstName }}</span> ! } @else {
+  Welcome back ! } 🏋️‍♂️
+</h1>
+
+<div class="content-container">
+  <div class="column next-workout-container">
+    <h2>Ready for your next workout ?</h2>
+    <button mat-flat-button color="primary">Let's go !</button>
+  </div>
+  <div class="column other-actions-container">
+    <h2>or...</h2>
+    <div class="view-sessions-card">
+      <button mat-button color="primary">View my sessions</button>
+    </div>
+    <div class="track-progress-card">
+      <button mat-flat-button color="primary">Track my progress</button>
+    </div>
+  </div>
+</div>
