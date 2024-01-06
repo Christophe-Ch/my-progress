@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
-import { Profile } from '../../data-management/profile/profile';
+import { ProfileService } from '../services/profile.service';
+import { Profile } from '../data-management/profile/profile';
 import { Auth, User, user, updateProfile } from '@angular/fire/auth';
-import { filter, map, mergeMap, take, tap } from 'rxjs';
-import { SplitViewComponent } from '../../ui/split-view/split-view.component';
+import { filter, map, merge, mergeMap, take, tap, timer } from 'rxjs';
+import { SplitViewComponent } from '../ui/split-view/split-view.component';
 import {
   FormBuilder,
   FormGroup,
@@ -37,32 +37,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class ProfileComponent implements OnInit {
   private readonly profileService = inject(ProfileService);
-  private readonly auth = inject(Auth);
   private readonly matSnackBar = inject(MatSnackBar);
   private readonly formBuilder = inject(FormBuilder);
-  private user: User | null = null;
+  private readonly auth = inject(Auth);
 
-  public profile?: Profile;
+  public profile: Profile | null = null;
   public formGroup?: FormGroup;
 
   async ngOnInit(): Promise<void> {
-    user(this.auth)
-      .pipe(
-        filter((user) => user !== null),
-        tap((user) => {
-          this.user = user;
-        }),
-        mergeMap(
-          async (user) => await this.profileService.getProfile(user!.uid)
-        ),
-        filter((profile) => profile !== undefined),
-        take(1)
-      )
+    this.profileService.profile$
+      .pipe(filter((profile) => profile !== null))
       .subscribe(async (profile) => {
         this.profile = profile;
         this.formGroup = this.formBuilder.group({
-          firstName: [this.profile.firstName],
-          lastName: [this.profile.lastName],
+          firstName: [profile!.firstName],
+          lastName: [profile!.lastName],
         });
       });
   }
@@ -72,13 +61,15 @@ export class ProfileComponent implements OnInit {
       !this.formGroup ||
       this.formGroup.invalid ||
       !this.profile ||
-      !this.user
-    )
+      !this.auth.currentUser
+    ) {
       return;
+    }
+
     this.profile.firstName = this.formGroup.value.firstName;
     this.profile.lastName = this.formGroup.value.lastName;
     if (await this.profileService.saveProfile(this.profile)) {
-      await updateProfile(this.user, {
+      await updateProfile(this.auth.currentUser, {
         displayName: this.profile.firstName,
       });
       this.matSnackBar.open('Your profile has been saved !', '🥳');
