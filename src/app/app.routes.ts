@@ -8,6 +8,7 @@ import {
   canActivate,
 } from '@angular/fire/auth-guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SessionComponent } from './session/session.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo('/auth/login');
 const redirectToHome = () => redirectLoggedInTo('/dashboard');
@@ -40,6 +41,12 @@ export const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     title: 'Your profile',
+    ...canActivate(redirectUnauthorizedToLogin),
+  },
+  {
+    path: 'new-session',
+    component: SessionComponent,
+    title: 'Session',
     ...canActivate(redirectUnauthorizedToLogin),
   },
 ];

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ProfileService } from '../services/profile.service';
+import { ProfileService } from './profile.service';
 import { Profile } from '../data-management/profile/profile';
 import { Auth, User, user, updateProfile } from '@angular/fire/auth';
 import { filter, map, merge, mergeMap, take, tap, timer } from 'rxjs';

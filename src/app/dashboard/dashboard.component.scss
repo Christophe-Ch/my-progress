@@ -44,9 +44,9 @@ h1 {
     border-radius: 3rem;
 
     h2 {
-        font-size: 3rem;
-        color: mat.get-theme-color($theme, primary, 900);
-      }
+      font-size: 3rem;
+      color: mat.get-theme-color($theme, primary, 900);
+    }
 
     &.next-workout-container {
       background-color: mat.get-theme-color($theme, primary, 50);
@@ -58,8 +58,13 @@ h1 {
   }
 }
 
+a,
 button {
   padding: 2rem 3rem;
   border-radius: 2rem;
   font-size: 1.25rem;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

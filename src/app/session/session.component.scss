@@ -1,0 +1,93 @@
+@use "@angular/material" as mat;
+@import "../../theme.scss";
+
+:host {
+  height: 100%;
+  padding: 3rem;
+}
+
+form {
+  height: 100%;
+  display: flex;
+  gap: 3rem;
+  box-sizing: border-box;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  flex: 1;
+
+  h1 {
+    font-size: 3rem;
+    color: mat.get-theme-color($theme, primary, 900);
+  }
+
+  .session-info {
+    display: flex;
+    gap: 1rem;
+  }
+
+  button {
+    padding: 1.5rem;
+    border-radius: 2rem;
+  }
+
+  border-radius: 3rem;
+  overflow: hidden;
+  background-color: mat.get-theme-color($theme, primary, 50);
+  padding: 2rem;
+  padding-top: 0;
+  box-sizing: border-box;
+}
+
+.right-column {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  button {
+    align-self: center;
+  }
+}
+
+mat-card {
+  margin-bottom: 1rem;
+
+  .exercise-input {
+    width: 100%;
+  }
+
+  .sets-heading {
+    display: block;
+    margin-block: 0.5rem;
+    font-weight: bold;
+  }
+
+  .set {
+    margin-block: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .set-form {
+      display: flex;
+      gap: 1rem;
+
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        display: none !important;
+      }
+    }
+
+    .set-actions {
+      display: flex;
+      gap: 0.25rem;
+    }
+  }
+}
