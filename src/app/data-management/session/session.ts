@@ -1,4 +1,6 @@
-export interface Session {
+import { BaseModel } from "../base-model";
+
+export interface Session extends BaseModel {
   title: string;
   date: Date;
   exercises: Exercise[];

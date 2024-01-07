@@ -1,9 +1,10 @@
 @use "@angular/material" as mat;
-@import "../../theme.scss";
+@import "../../../theme.scss";
 
-:host {
+.container {
   height: 100%;
-  padding: 3rem;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 form {
@@ -54,11 +55,23 @@ form {
 
   button {
     align-self: center;
+    margin-bottom: 1rem;
   }
+}
+
+.exercises {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: scroll;
+  padding-inline: 2rem;
+  box-sizing: border-box;
 }
 
 mat-card {
   margin-bottom: 1rem;
+  margin-top: 1px;
 
   .exercise-input {
     width: 100%;

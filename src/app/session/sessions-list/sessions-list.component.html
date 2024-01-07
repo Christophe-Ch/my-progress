@@ -1,0 +1,15 @@
+<app-split-view>
+  <div class="sessions">
+    @for (session of sessions; track $index) {
+    <div class="session">
+      <div class="session-details">
+        <span class="session-title">{{ session.title }}</span>
+        <span class="session-date">{{ session.date.toDateString() }}</span>
+      </div>
+      <div class="session-actions">
+        <a mat-button color="primary" [routerLink]="'/sessions/' + session._id"><mat-icon>visibility</mat-icon> Open</a>
+      </div>
+    </div>
+    }
+  </div>
+</app-split-view>

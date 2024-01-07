@@ -14,12 +14,13 @@ import {
   query,
   addDoc,
 } from '@angular/fire/firestore';
+import { BaseModel } from './base-model';
 
 /**
  * Base data service class. Must be extended with the type of data as generic type.
  */
 @Injectable()
-export abstract class BaseDataService<T extends { [x: string]: any }> {
+export abstract class BaseDataService<T extends BaseModel> {
   private readonly docs: Map<T, DocumentReference<DocumentData>> = new Map();
 
   protected readonly firestore = inject(Firestore);
@@ -35,6 +36,7 @@ export abstract class BaseDataService<T extends { [x: string]: any }> {
 
     this.docs.set(value, docRef);
 
+    value._id = docRef.id;
     return value;
   }
 
@@ -77,6 +79,7 @@ export abstract class BaseDataService<T extends { [x: string]: any }> {
     return queryResult.docs.map((doc) => {
       const value = doc.data() as T;
       this.docs.set(value, doc.ref);
+      value._id = doc.id;
       return value;
     });
   }
@@ -97,9 +100,11 @@ export abstract class BaseDataService<T extends { [x: string]: any }> {
    * @param path Path to the collection.
    * @param value Value of the document.
    */
-  async addDoc(path: string, value: T): Promise<void> {
+  async addDoc(path: string, value: T): Promise<string> {
     const collectionRef = collection(this.firestore, path);
     const docRef = await addDoc(collectionRef, value);
     this.docs.set(value, docRef);
+    value._id = docRef.id;
+    return docRef.id;
   }
 }
