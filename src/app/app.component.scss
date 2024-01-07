@@ -9,8 +9,15 @@ a[mat-menu-item]:hover {
 }
 
 mat-toolbar {
+  min-height: 4rem;
+
   a {
     color: white;
     text-decoration: none;
   }
+}
+
+.page-content {
+  flex: 1;
+  overflow: hidden;
 }

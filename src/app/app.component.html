@@ -6,24 +6,26 @@
   </button>
   <mat-menu #menu="matMenu">
     @if ((user | async) == null) {
-      <a routerLink="/auth/login" mat-menu-item>
-        <mat-icon>login</mat-icon>
-        <span>Log In</span>
-      </a>
-      <a routerLink="/auth/signup" mat-menu-item>
-        <mat-icon>person_add</mat-icon>
-        <span>Sign Up</span>
-      </a>
+    <a routerLink="/auth/login" mat-menu-item>
+      <mat-icon>login</mat-icon>
+      <span>Log In</span>
+    </a>
+    <a routerLink="/auth/signup" mat-menu-item>
+      <mat-icon>person_add</mat-icon>
+      <span>Sign Up</span>
+    </a>
     } @else {
-      <a routerLink="/profile" mat-menu-item>
-        <mat-icon>person</mat-icon>
-        <span>Profile</span>
-      </a>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </button>
+    <a routerLink="/profile" mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </a>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
     }
   </mat-menu>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<div class="page-content">
+  <router-outlet></router-outlet>
+</div>
