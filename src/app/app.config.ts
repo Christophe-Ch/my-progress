@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
       provideAuth(() => {
         const auth = getAuth();
         if (isDevMode()) {
-          connectAuthEmulator(auth, 'http://localhost:9099', {
+          connectAuthEmulator(auth, 'http://192.168.1.73:9099', {
             disableWarnings: true,
           });
         }
@@ -41,14 +41,14 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       provideFirestore(() => {
         const firestore = getFirestore();
-        connectFirestoreEmulator(firestore, 'localhost', 8080);
+        connectFirestoreEmulator(firestore, '192.168.1.73', 8080);
         return firestore;
       })
     ),
     importProvidersFrom(
       provideStorage(() => {
         const storage = getStorage();
-        connectStorageEmulator(storage, 'localhost', 5001);
+        connectStorageEmulator(storage, '192.168.1.73', 5001);
         return storage;
       })
     ),
