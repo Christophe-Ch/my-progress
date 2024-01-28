@@ -1,10 +1,12 @@
 @use "@angular/material" as mat;
 @import "../../theme.scss";
+@import "../../sizes.scss";
 
 :host {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 h1 {
@@ -28,23 +30,16 @@ h1 {
 }
 
 .content-container {
-  flex: 1;
   display: flex;
-  padding: 3rem;
-  padding-top: 0;
-  gap: 3rem;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
 
   .column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 3rem;
-    border-radius: 3rem;
+    padding: 1rem;
 
     h2 {
-      font-size: 3rem;
+      font-size: 1rem;
       color: mat.get-theme-color($theme, primary, 900);
     }
 
@@ -53,18 +48,53 @@ h1 {
     }
 
     &.other-actions-container {
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
+      margin-bottom: 3rem;
     }
   }
 }
 
 a,
 button {
-  padding: 2rem 3rem;
+  padding-inline: 2rem;
   border-radius: 2rem;
-  font-size: 1.25rem;
+}
 
-  &:hover {
-    text-decoration: none;
+@media screen and (min-width: $lg) {
+  .content-container {
+    flex: 1;
+    flex-direction: row;
+    padding: 3rem;
+    padding-top: 0;
+    gap: 3rem;
+
+    .column {
+      h2 {
+        font-size: 3rem;
+      }
+
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+
+      &.other-actions-container {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  a,
+  button {
+    padding: 2rem 3rem;
+    font-size: 1.25rem;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 }

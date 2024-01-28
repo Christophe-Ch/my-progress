@@ -1,5 +1,6 @@
 @use "@angular/material" as mat;
 @import "../../../theme.scss";
+@import "../../../sizes.scss";
 
 :host {
   height: 100%;
@@ -12,15 +13,21 @@
 }
 
 .title-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 3rem 3rem 0;
-  background-color: mat.get-theme-color($theme, primary, 50);
+  display: none;
+}
 
-  h1 {
-    font-size: 5rem;
-    color: mat.get-theme-color($theme, primary, 900);
+@media screen and (min-width: $lg) {
+  .title-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 3rem 3rem 0;
+    background-color: mat.get-theme-color($theme, primary, 50);
+
+    h1 {
+      font-size: 5rem;
+      color: mat.get-theme-color($theme, primary, 900);
+    }
   }
 }

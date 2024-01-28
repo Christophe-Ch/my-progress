@@ -21,6 +21,7 @@ import { SessionService } from '../session.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-session',
@@ -37,6 +38,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCardModule,
     MatDividerModule,
     MatProgressSpinnerModule,
+    MatMenuModule,
   ],
   templateUrl: './session.component.html',
   styleUrl: './session.component.scss',

@@ -76,7 +76,8 @@ export class SignupComponent {
         duration: 5000,
       });
       this.router.navigateByUrl('/profile');
-    } catch {
+    } catch (error) {
+      alert(error);
       this.snackBar.open('Sign-up failed.', '🤔', {
         duration: 5000,
       });

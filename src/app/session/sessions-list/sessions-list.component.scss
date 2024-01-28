@@ -41,3 +41,17 @@
     }
   }
 }
+
+.empty-container {
+  align-self: center;
+  margin-block: auto;
+  text-align: center;
+
+  p {
+    font-size: 1.25rem;
+  }
+
+  a {
+    color: mat.get-theme-color($theme, primary, 900);
+  }
+}

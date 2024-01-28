@@ -1,5 +1,9 @@
 @import "./theme.scss";
 
+.firebase-emulator-warning {
+  display: none;
+}
+
 html,
 body {
   height: 100%;

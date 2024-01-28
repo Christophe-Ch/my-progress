@@ -90,7 +90,7 @@
                   />
                 </mat-form-field>
               </div>
-              <div class="set-actions">
+              <div class="set-actions large">
                 <button
                   mat-icon-button
                   color="warn"
@@ -116,6 +116,41 @@
                   <mat-icon>add</mat-icon>
                 </button>
               </div>
+              <div class="set-actions responsive">
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  type="button"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button
+                    mat-menu-item
+                    (click)="removeSet(exercise, $index)"
+                    type="button"
+                  >
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="duplicateSet(exercise, $index)"
+                    type="button"
+                  >
+                    <mat-icon>content_copy</mat-icon>
+                    <span>Duplicate</span>
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="addSet(exercise, $index)"
+                    type="button"
+                  >
+                    <mat-icon>add</mat-icon>
+                    <span>Add</span>
+                  </button>
+                </mat-menu>
+              </div>
             </div>
             }
             <mat-divider></mat-divider>
@@ -132,7 +167,13 @@
           </mat-card-actions>
         </mat-card>
         }
-        <button mat-fab color="primary" (click)="addExercise()" type="button">
+        <button
+          mat-fab
+          color="primary"
+          (click)="addExercise()"
+          type="button"
+          class="add-exercise"
+        >
           <mat-icon>add</mat-icon>
         </button>
       </div>
