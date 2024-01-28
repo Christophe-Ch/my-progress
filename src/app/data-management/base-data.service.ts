@@ -107,4 +107,13 @@ export abstract class BaseDataService<T extends BaseModel> {
     value._id = docRef.id;
     return docRef.id;
   }
+
+  /**
+   * Get document reference from value.
+   * @param value Value to fetch the document reference.
+   * @returns The document reference (if found).
+   */
+  getDocRef(value: T): DocumentReference<DocumentData> | undefined {
+    return this.docs.get(value);
+  }
 }

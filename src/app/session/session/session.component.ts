@@ -22,6 +22,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { map, Observable, startWith } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-session',
@@ -39,6 +42,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatMenuModule,
+    MatAutocompleteModule,
+    AsyncPipe,
   ],
   templateUrl: './session.component.html',
   styleUrl: './session.component.scss',
@@ -54,6 +59,8 @@ export class SessionComponent implements OnInit {
 
   public formGroup?: FormGroup;
   public exercisesFormArray?: FormArray;
+
+  public filteredOptions!: Observable<string[]>;
 
   public async ngOnInit(): Promise<void> {
     if (this.activatedRoute.snapshot.paramMap.has('sessionId')) {
@@ -122,6 +129,23 @@ export class SessionComponent implements OnInit {
         '❌'
       );
     }
+  }
+
+  public onExerciseInputFocus(exerciseFormGroup: FormGroup): void {
+    this.filteredOptions = exerciseFormGroup.controls[
+      'exercise'
+    ].valueChanges.pipe(
+      startWith(''),
+      map((value) => {
+        if (this.profileService.currentProfile === null) {
+          return [];
+        }
+
+        return this.profileService.currentProfile.exercises.filter((exercise) =>
+          exercise.toLowerCase().includes(value?.toLowerCase() ?? '')
+        );
+      })
+    );
   }
 
   private async saveSession(): Promise<void> {

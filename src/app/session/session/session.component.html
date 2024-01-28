@@ -38,14 +38,19 @@
         </div>
       </div>
 
-      <button
-        mat-flat-button
-        color="primary"
-        type="submit"
-        [disabled]="formGroup.invalid"
-      >
-        <mat-icon>save</mat-icon> Save session
-      </button>
+      <div class="actions">
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="formGroup.invalid"
+        >
+          <mat-icon>save</mat-icon> Save session
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
 
     <div class="right-column">
@@ -60,9 +65,15 @@
                 matInput
                 placeholder="Bench press"
                 formControlName="exercise"
-                autocomplete="off"
+                [matAutocomplete]="auto"
                 data-form-type="other"
+                (focus)="onExerciseInputFocus(exercise)"
               />
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                @for (option of filteredOptions | async; track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+                }
+              </mat-autocomplete>
             </mat-form-field>
             <mat-divider></mat-divider>
             <span class="sets-heading">Sets</span>

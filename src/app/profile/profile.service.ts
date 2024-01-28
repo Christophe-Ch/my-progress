@@ -3,15 +3,13 @@ import { ProfileDataService } from '../data-management/profile/profile-data.serv
 import { Profile } from '../data-management/profile/profile';
 import {
   BehaviorSubject,
-  Observable,
-  Subject,
   filter,
   mergeMap,
   take,
-  tap,
   timer,
 } from 'rxjs';
 import { Auth, User, user } from '@angular/fire/auth';
+import { onSnapshot } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -58,5 +56,29 @@ export class ProfileService {
         this.currentProfile = profile;
         this._profile$.next(profile);
       });
+  }
+
+  private initCurrentProfileWatch(): void {
+    this._profile$.subscribe(profile => {
+      if (profile === null) {
+        return;
+      }
+
+      const profileDoc = this.dataService.getDocRef(profile);
+      if (profileDoc === undefined) {
+        return;
+      }
+
+      onSnapshot(profileDoc, (snapshot) => {
+        const snapshotData = snapshot.data();
+        if (snapshotData === undefined || this.currentProfile === null) {
+          return;
+        }
+
+        this.currentProfile.firstName = snapshotData['firstName'];
+        this.currentProfile.lastName = snapshotData['lastName'];
+        this.currentProfile.exercises = snapshotData['exercises'];
+      });
+    });
   }
 }
