@@ -1,30 +1,35 @@
 <mat-toolbar color="primary">
   <a routerLink="/">MyProgress</a>
   <span class="spacer"></span>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    @if ((user | async) == null) {
-    <a routerLink="/auth/login" mat-menu-item>
-      <mat-icon>login</mat-icon>
-      <span>Log In</span>
-    </a>
-    <a routerLink="/auth/signup" mat-menu-item>
-      <mat-icon>person_add</mat-icon>
-      <span>Sign Up</span>
-    </a>
-    } @else {
-    <a routerLink="/profile" mat-menu-item>
-      <mat-icon>person</mat-icon>
-      <span>Profile</span>
-    </a>
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Logout</span>
-    </button>
+  <div class="menu">
+    @if (profileService.currentProfile?.firstName !== undefined) {
+    <span class="username">{{ profileService.currentProfile?.firstName }}</span>
     }
-  </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      @if ((user | async) == null) {
+      <a routerLink="/auth/login" mat-menu-item>
+        <mat-icon>login</mat-icon>
+        <span>Log In</span>
+      </a>
+      <a routerLink="/auth/signup" mat-menu-item>
+        <mat-icon>person_add</mat-icon>
+        <span>Sign Up</span>
+      </a>
+      } @else {
+      <a routerLink="/profile" mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+      }
+    </mat-menu>
+  </div>
 </mat-toolbar>
 <div class="page-content">
   <router-outlet></router-outlet>

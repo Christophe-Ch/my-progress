@@ -17,11 +17,6 @@ const redirectToHome = () => redirectLoggedInTo('/dashboard');
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent, // TODO edit with HomeComponent
-    ...canActivate(redirectToHome),
-  },
-  {
-    path: 'dashboard',
     component: DashboardComponent,
     title: 'Dashboard',
     ...canActivate(redirectUnauthorizedToLogin),

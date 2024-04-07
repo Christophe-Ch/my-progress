@@ -1,3 +1,5 @@
+@import "../sizes.scss";
+
 :host {
   display: flex;
   flex-direction: column;
@@ -20,4 +22,21 @@ mat-toolbar {
 .page-content {
   flex: 1;
   overflow: hidden;
+}
+
+.menu .username {
+  display: none;
+}
+
+@media screen and (min-width: $lg) {
+  .menu {
+    display: flex;
+    align-items: center;
+    .username {
+      display: block;
+      font-weight: 100;
+      font-size: 1rem;
+      margin-inline-end: 0.5rem;
+    }
+  }
 }
