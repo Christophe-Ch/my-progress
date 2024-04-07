@@ -1,13 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ProfileDataService } from '../data-management/profile/profile-data.service';
 import { Profile } from '../data-management/profile/profile';
-import {
-  BehaviorSubject,
-  filter,
-  mergeMap,
-  take,
-  timer,
-} from 'rxjs';
+import { BehaviorSubject, filter, mergeMap, take, timer } from 'rxjs';
 import { Auth, User, user } from '@angular/fire/auth';
 import { onSnapshot } from '@angular/fire/firestore';
 
@@ -22,6 +16,7 @@ export class ProfileService {
   public profile$ = this._profile$.asObservable();
 
   constructor(auth: Auth) {
+    this.initCurrentProfileWatch();
     user(auth).subscribe((user) => {
       if (user === null) {
         this.currentProfile = null;
@@ -59,7 +54,7 @@ export class ProfileService {
   }
 
   private initCurrentProfileWatch(): void {
-    this._profile$.subscribe(profile => {
+    this._profile$.subscribe((profile) => {
       if (profile === null) {
         return;
       }

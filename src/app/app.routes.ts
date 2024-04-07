@@ -11,8 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SessionComponent } from './session/session/session.component';
 import { SessionsListComponent } from './session/sessions-list/sessions-list.component';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo('/auth/login');
-const redirectToHome = () => redirectLoggedInTo('/dashboard');
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo('/login');
+const redirectToHome = () => redirectLoggedInTo('');
 
 export const routes: Routes = [
   {
@@ -22,13 +22,13 @@ export const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin),
   },
   {
-    path: 'auth/login',
+    path: 'login',
     component: LoginComponent,
     title: 'Log In',
     ...canActivate(redirectToHome),
   },
   {
-    path: 'auth/signup',
+    path: 'signup',
     component: SignupComponent,
     title: 'Sign Up',
     ...canActivate(redirectToHome),

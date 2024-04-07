@@ -25,11 +25,12 @@ export const updateStatistics = firestore
       change.before.data(),
       change.after.id,
     ];
-    if (newSessionData === undefined) {
-      return;
-    }
 
-    const statistics = await fetchStatistics(newSessionData as Session);
+    const statistics = await fetchStatistics(
+      newSessionData as Session,
+      oldSessionData as Session
+    );
+
     await updateStatisticsData(
       newSessionData as Session,
       oldSessionData as Session,
@@ -40,12 +41,14 @@ export const updateStatistics = firestore
 
 /**
  * Fetch statistics document from session data.
- * @param {Session} newSessionData Session data.
+ * @param {Session} oldSessionData Old session data.
+ * @param {Session} newSessionData New session data.
  */
 async function fetchStatistics(
-  newSessionData: Session
+  oldSessionData: Session | undefined,
+  newSessionData: Session | undefined
 ): Promise<QuerySnapshot<DocumentData>> {
-  const profileId = newSessionData.profileId;
+  const profileId = newSessionData?.profileId ?? oldSessionData?.profileId;
   return await db
     .collection('statistics')
     .where('profileId', '==', profileId)
@@ -60,16 +63,28 @@ async function fetchStatistics(
  * @param {QuerySnapshot<DocumentData>} statistics Statistics document ref.
  */
 async function updateStatisticsData(
-  newSessionData: Session,
+  newSessionData: Session | undefined,
   oldSessionData: Session | undefined,
   sessionId: string,
   queryResult: QuerySnapshot<DocumentData>
 ): Promise<void> {
   const statistics = queryResult.docs[0];
   const statisticsDocument = statistics?.data() ?? {
-    profileId: newSessionData.profileId,
+    profileId: newSessionData?.profileId,
     exercises: [],
   };
+
+  if (typeof newSessionData === 'undefined') {
+    if (typeof oldSessionData === 'undefined') return;
+    deleteExistingStatistics(
+      oldSessionData.exercises,
+      statisticsDocument as Statistics,
+      sessionId
+    );
+    await saveStatistics(statistics, statisticsDocument as Statistics);
+    return;
+  }
+
   const difference = compareSessions(oldSessionData, newSessionData);
 
   addNewStatistics(
