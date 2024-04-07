@@ -1,13 +1,13 @@
-import {auth} from "firebase-functions/v1";
-import * as admin from "firebase-admin";
-import {uid} from "uid";
-import {UserRecord} from "firebase-admin/auth";
+import { auth } from 'firebase-functions/v1';
+import * as admin from 'firebase-admin';
+import { uid } from 'uid';
+import { UserRecord } from 'firebase-admin/auth';
 
 admin.initializeApp();
 
 const db = admin.firestore();
 
-export const onUserCreation = auth.user().onCreate(async (user) => {
+export const prepareProfile = auth.user().onCreate(async (user) => {
   await createUser(user);
   await createProfile(user);
 });
@@ -26,8 +26,8 @@ async function createUser(user: UserRecord): Promise<void> {
  */
 async function createProfile(user: UserRecord): Promise<void> {
   await db.collection(`users/${user.uid}/profile`).add({
-    firstName: "",
-    lastName: "",
+    firstName: '',
+    lastName: '',
     exercises: [],
     uid: uid(),
   });
