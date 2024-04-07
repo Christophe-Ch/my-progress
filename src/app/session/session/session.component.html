@@ -47,9 +47,16 @@
         >
           <mat-icon>save</mat-icon> Save session
         </button>
-        <button mat-icon-button color="warn">
+        @if (session !== undefined) {
+        <button
+          mat-icon-button
+          color="warn"
+          type="button"
+          (click)="deleteSession()"
+        >
           <mat-icon>delete</mat-icon>
         </button>
+        }
       </div>
     </div>
 

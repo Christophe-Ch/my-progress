@@ -13,6 +13,7 @@ import {
   setDoc,
   query,
   addDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { BaseModel } from './base-model';
 
@@ -86,11 +87,11 @@ export abstract class BaseDataService<T extends BaseModel> {
 
   /**
    * Set document by its value.
-   * @param value Value of the document to be set
+   * @param value Value of the document to set
    */
   async setDoc(value: T): Promise<void> {
     const docRef = this.docs.get(value);
-    if (docRef) {
+    if (docRef !== undefined) {
       await setDoc(docRef, value);
     }
   }
@@ -115,5 +116,16 @@ export abstract class BaseDataService<T extends BaseModel> {
    */
   getDocRef(value: T): DocumentReference<DocumentData> | undefined {
     return this.docs.get(value);
+  }
+
+  /**
+   * Delete a document.
+   * @param value Value of the document to delete.
+   */
+  async deleteDoc(value: T): Promise<void> {
+    const docRef = this.docs.get(value);
+    if (docRef !== undefined) {
+      await deleteDoc(docRef);
+    }
   }
 }

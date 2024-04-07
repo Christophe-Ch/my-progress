@@ -25,6 +25,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { map, Observable, startWith } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { SessionDeleteDialogComponent } from '../session-delete-dialog/session-delete-dialog.component';
 
 @Component({
   selector: 'app-session',
@@ -55,8 +57,9 @@ export class SessionComponent implements OnInit {
   private matSnackBar = inject(MatSnackBar);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private session?: Session;
+  private dialog = inject(MatDialog);
 
+  public session?: Session;
   public formGroup?: FormGroup;
   public exercisesFormArray?: FormArray;
 
@@ -112,7 +115,7 @@ export class SessionComponent implements OnInit {
     return sets.controls as FormGroup[];
   }
 
-  public async onSubmit(): Promise<void> {
+  public onSubmit(): void {
     if (!this.profileService.currentProfile || this.formGroup!.invalid) {
       return;
     }
@@ -129,6 +132,19 @@ export class SessionComponent implements OnInit {
         '❌'
       );
     }
+  }
+
+  public deleteSession(): void {
+    this.dialog
+      .open(SessionDeleteDialogComponent)
+      .afterClosed()
+      .subscribe((result) => {
+        if (result && this.session !== undefined) {
+          this.sessionService.deleteSession(this.session);
+          this.matSnackBar.open('Session deleted !', '🔥');
+          this.router.navigateByUrl('/sessions');
+        }
+      });
   }
 
   public onExerciseInputFocus(exerciseFormGroup: FormGroup): void {

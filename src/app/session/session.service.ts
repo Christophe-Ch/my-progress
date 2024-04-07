@@ -7,19 +7,16 @@ import { Timestamp, where } from '@angular/fire/firestore';
   providedIn: 'root',
 })
 export class SessionService {
-  private sessionDataService = inject(SessionDataService);
+  private dataService = inject(SessionDataService);
 
   public async createSession(session: Session): Promise<string> {
-    const sessionId = await this.sessionDataService.addDoc(
-      '/sessions',
-      session
-    );
+    const sessionId = await this.dataService.addDoc('/sessions', session);
     return sessionId;
   }
 
   public async saveSession(session: Session): Promise<boolean> {
     try {
-      await this.sessionDataService.setDoc(session);
+      await this.dataService.setDoc(session);
       return true;
     } catch {
       return false;
@@ -27,15 +24,13 @@ export class SessionService {
   }
 
   public async getSession(sessionId: string): Promise<Session> {
-    const session = await this.sessionDataService.getDoc(
-      `/sessions/${sessionId}`
-    );
+    const session = await this.dataService.getDoc(`/sessions/${sessionId}`);
     session.date = (session.date as unknown as Timestamp).toDate();
     return session;
   }
 
   public async getSessionsForProfile(profileId: string): Promise<Session[]> {
-    const sessions = await this.sessionDataService.queryDocs(
+    const sessions = await this.dataService.queryDocs(
       '/sessions',
       false,
       where('profileId', '==', profileId)
@@ -45,5 +40,9 @@ export class SessionService {
         (session.date = (session.date as unknown as Timestamp).toDate())
     );
     return sessions;
+  }
+
+  public async deleteSession(session: Session): Promise<void> {
+    await this.dataService.deleteDoc(session);
   }
 }
